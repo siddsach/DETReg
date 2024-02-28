@@ -51,10 +51,9 @@ class SelfDet(Dataset):
         self.files = []
         self.dist2 = -np.log(np.arange(1, 301) / 301) / 10
         max_prob = (-np.log(1 / 1001)) ** 4
-
         for (troot, _, files) in os.walk(root, followlinks=True):
             for f in files:
-                if f.split('.')[-1].lower() in ['jpg', 'jpeg', 'png']:
+                if f.split('.')[-1].lower() in ['jpg', 'jpeg', 'png', 'tiff']:
                     path = os.path.join(troot, f)
                     self.files.append(path)
                 else:

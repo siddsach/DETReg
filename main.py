@@ -28,7 +28,7 @@ from models import build_model
 from models.backbone import build_swav_backbone, build_swav_backbone_old
 from util.default_args import set_model_defaults, get_args_parser
 
-PRETRAINING_DATASETS = ['imagenet', 'imagenet100', 'coco_pretrain', 'airbus_pretrain']
+PRETRAINING_DATASETS = ['imagenet', 'imagenet100', 'coco_pretrain', 'airbus_pretrain', 'tree_pretrain']
 
 
 def main(args):
@@ -274,6 +274,11 @@ def get_datasets(args):
         dataset_train = build_selfdet(
             'train', args=args, p=os.path.join(args.coco_path, 'train2017'))
         dataset_val = build_dataset(image_set='val', args=args)
+    elif args.dataset == 'tree_pretrain':
+        from datasets.selfdet import build_selfdet
+        dataset_train = build_selfdet(
+            'train', args=args, p=os.path.join(args.tree_path, 'train2017'))
+        dataset_val = build_dataset(image_set='train', args=args)
     elif args.dataset == 'airbus':
         dataset_train = build_dataset(image_set='train', args=args)
         dataset_val = build_dataset(image_set='val', args=args)
@@ -308,6 +313,7 @@ def get_datasets(args):
 def set_dataset_path(args):
     args.coco_path = os.path.join(args.data_root, 'MSCoco')
     args.airbus_path = os.path.join(args.data_root, 'airbus-ship-detection')
+    args.tree_path = os.path.join(args.data_root, 'cocoformattedrajasthantreedataset')
     args.imagenet_path = os.path.join(args.data_root, 'ilsvrc')
     args.imagenet100_path = os.path.join(args.data_root, 'ilsvrc100')
     args.voc_path = os.path.join(args.data_root, 'pascal')
